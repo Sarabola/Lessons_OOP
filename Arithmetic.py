@@ -108,3 +108,90 @@ class FoodInfo:
     def __rfloordiv__(self, other):
         return self.__floordiv__(other)
 
+
+class Vector:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}{self.x, self.y}"
+
+    def __add__(self, other):
+        if isinstance(other, self.__class__):
+            return self.__class__(self.x + other.x, self.y + other.y)
+        return NotImplemented
+
+    def __radd__(self, other):
+        return self.__add__(other)
+
+    def __sub__(self, other):
+        if isinstance(other, self.__class__):
+            return self.__class__(self.x - other.x, self.y - other.y)
+        return NotImplemented
+
+    def __rsub__(self, other):
+        return self.__sub__(other)
+
+    def __truediv__(self, other):
+        if isinstance(other, int | float) and other != 0:
+            return self.__class__(self.x / other, self.y / other)
+        return NotImplemented
+
+    def  __rtruediv__(self, other):
+        return self.__truediv__(other)
+
+    def __mul__(self, other):
+        if isinstance(other, int | float):
+            return self.__class__(self.x * other, self.y * other)
+        return NotImplemented
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
+
+
+class SuperString:
+    def __init__(self, string):
+        self.string = string
+
+    def __str__(self):
+        return f'{self.string}'
+
+    def __add__(self, other):
+        if isinstance(other, self.__class__):
+            return self.__class__(self.string + other.string)
+        return NotImplemented
+
+    def __radd__(self, other):
+        return self.__add__(other)
+
+    def __mul__(self, other):
+        if isinstance(other, int):
+            return self.__class__(self.string * other)
+        return NotImplemented
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
+
+    def __truediv__(self, other):
+        if isinstance(other, int):
+            m = len(self.string) // other
+            return self.__class__(self.string[:m])
+        return NotImplemented
+
+    def __lshift__(self, other):
+        if isinstance(other, int):
+            if other == 0:
+                return self.__class__(self.string)
+            return self.__class__(self.string[:-other])
+        return NotImplemented
+
+    def __rshift__(self, other):
+        if isinstance(other, int):
+
+            return self.__class__(self.string[other:])
+        return NotImplemented
+
+s = SuperString('beegeek')
+for i in range(9):
+    print(f'{s} >> {i} =', s >> i)
