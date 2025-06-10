@@ -5,7 +5,7 @@ class Arithmetic:
     def __repr__(self):
         return f"{self.__class__.__name__}({self.num})"
 
-    def __add__(self, other): #сумма
+    def __add__(self, other):                       #все виды заначи операторов сложения  iadd (+=)   add (x + y)  radd (y + x)
         if isinstance(other, int | float):
             return Arithmetic(self.num + other)
         elif isinstance(other, Arithmetic):
@@ -14,6 +14,11 @@ class Arithmetic:
 
     def __radd__(self, other): #игнорирует порядок аргументов
         return self.__add__(other)
+
+    def __iadd__(self, other):                  #создается автоматически при создании add
+        self.num += other                       #но каждый раз вовращает новый объект в памяти даже если объект изменяемый класс
+        return self
+
 
     def __sub__(self, other):
         if isinstance(other, int | float):
@@ -192,6 +197,5 @@ class SuperString:
             return self.__class__(self.string[other:])
         return NotImplemented
 
-s = SuperString('beegeek')
-for i in range(9):
-    print(f'{s} >> {i} =', s >> i)
+
+class Time:
