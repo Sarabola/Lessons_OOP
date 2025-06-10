@@ -223,3 +223,44 @@ class Time:
             self.minutes %= 60
             return self
         return NotImplemented
+
+
+class Queue:
+    def __init__(self, *args):
+        self.args = list(args)
+
+    def add(self, *args):
+        self.args.extend(list(args))
+
+    def pop(self):
+        if len(self.args) == 0:
+            return None
+        return self.args.pop(0)
+
+    def __str__(self):
+        result = ' -> '.join(map(str, self.args))
+        return result
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self.args == other.args
+        return NotImplemented
+
+    def __add__(self, other):
+        if isinstance(other, self.__class__):
+            new = self.args + other.args
+            return self.__class__(*new)
+        return NotImplemented
+
+    def __iadd__(self, other):
+        if isinstance(other, self.__class__):
+            self.args.extend(other.args)
+            return self
+        return NotImplemented
+
+    def __rshift__(self, other):
+        if isinstance(other, int) and other >= 0:
+            list_args = self.args[other:]
+            return self.__class__(*list_args)
+        return NotImplemented
+
