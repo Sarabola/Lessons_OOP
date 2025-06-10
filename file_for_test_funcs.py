@@ -1,0 +1,1 @@
+print(*dir(type), sep='\n')
