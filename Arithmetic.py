@@ -199,3 +199,27 @@ class SuperString:
 
 
 class Time:
+    def __init__(self, hours, minutes):
+        self.hours = hours % 24 + minutes // 60
+        self.minutes = minutes % 60
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}{self.hours, self.minutes}'
+
+    def __str__(self):
+        return f"{self.hours:02}:{self.minutes:02}"
+
+    def __add__(self, other):
+        if isinstance(other, self.__class__):
+            minutes = self.minutes + other.minutes
+            hours = (self.hours + other.hours + minutes // 60) % 24
+            return self.__class__(hours, minutes % 60)
+        return NotImplemented
+
+    def __iadd__(self, other):
+        if isinstance(other, self.__class__):
+            self.minutes += other.minutes
+            self.hours = (self.hours + other.hours + self.minutes // 60) % 24
+            self.minutes %= 60
+            return self
+        return NotImplemented
